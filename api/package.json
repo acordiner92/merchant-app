@@ -1,0 +1,19 @@
+{
+  "name": "merchant-api",
+  "version": "1.0.0",
+  "description": "Merchant Api",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acordiner92/merchant-app.git"
+  },
+  "author": "Andrew Cordiner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acordiner92/merchant-app/issues"
+  },
+  "homepage": "https://github.com/acordiner92/merchant-app#readme"
+}
