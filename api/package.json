@@ -5,7 +5,11 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsnd --cls src/index.ts",
+    "build": "tsc",
+    "formatting": "prettier --check ./src",
+    "lint": "eslint ./src",
+    "test": "jest ./test"
   },
   "repository": {
     "type": "git",
