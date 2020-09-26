@@ -12,9 +12,9 @@ export const create = (db: IDatabase<Merchant>) => (
   db.one(
     `
     INSERT INTO merchant
-    (id, status, currency, website_url, country, discount_percentage)
+    (id, status, currency, website_url, country, discount_percentage, created_at, updated_at)
     VALUES ($(id), $(status), $(currency), $(websiteUrl), 
-        $(country), $(discountPercentage))
+        $(country), $(discountPercentage), $(createdAt), $(updatedAt))
     RETURNING id, status, currency, website_url, country, discount_percentage, created_at, updated_at
     `,
     merchant,
@@ -33,7 +33,7 @@ export const update = (db: IDatabase<Merchant>) => async (
     `
   UPDATE merchant
   SET status=$(status), currency=$(currency), website_url=$(websiteUrl), country=$(country), 
-  discount_percentage=$(discountPercentage)
+  discount_percentage=$(discountPercentage), updated_at=$(updatedAt)
   WHERE id=$(id)
   `,
     merchant,
@@ -64,6 +64,12 @@ type MerchantSearchFilter = {
   readonly offset: number;
 };
 
+/**
+ * Gets a list of merchants by search filter options.
+ *
+ * @param {MerchantSearchFilter} filter
+ * @returns {Promise<ReadonlyArray<Merchant>>}
+ */
 export const getByFilter = (db: IDatabase<Merchant>) => (
   filter: MerchantSearchFilter,
 ): Promise<ReadonlyArray<Merchant>> =>
