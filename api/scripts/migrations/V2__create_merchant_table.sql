@@ -11,3 +11,13 @@ CREATE TABLE MERCHANT(
    created_at TIMESTAMP NOT NULL DEFAULT timezone('utc', NOW()),
    updated_at TIMESTAMP NOT NULL DEFAULT timezone('utc', NOW())
 );
+
+CREATE TRIGGER set_insert_timestamp
+BEFORE INSERT ON MERCHANT
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_insert_timestamp();
+
+CREATE TRIGGER set_update_timestamp
+BEFORE UPDATE ON MERCHANT
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_update_timestamp();
