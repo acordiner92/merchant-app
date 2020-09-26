@@ -11,5 +11,5 @@ export const createMerchant = (): Merchant => ({
   currency: 'AUD',
   websiteUrl: 'https://example.com',
   country: 'Australia',
-  discountPercentage: 15.0,
+  discountPercentage: 15.5,
 });
