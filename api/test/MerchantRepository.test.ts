@@ -1,5 +1,10 @@
 import { ActivityStatus, Merchant } from '../src/Merchant';
-import { create, getById, update } from '../src/MerchantRepository';
+import {
+  create,
+  getByFilter,
+  getById,
+  update,
+} from '../src/MerchantRepository';
 import { getClient, getConnection } from '../src/PostgresConnection';
 import { createMerchant } from './MerchantFactory';
 import { v4 as uuid } from 'uuid';
@@ -73,6 +78,61 @@ describe('MerchantRepository', () => {
 
       const matchedMerchant = await getById(client)(nonExistentId);
       expect(matchedMerchant).toBeNull();
+    });
+  });
+
+  describe('getByFilter', () => {
+    test('only the limit amount of merchant are returned', async () => {
+      const merchantOne = createMerchant();
+      const merchantTwo = createMerchant();
+
+      await create(client)(merchantOne);
+      await create(client)(merchantTwo);
+
+      const filter = {
+        limit: 1,
+        offset: 0,
+      };
+
+      const matches = await getByFilter(client)(filter);
+      expect(matches.length).toBe(1);
+    });
+
+    test('results are offset by the offset value', async () => {
+      const merchantOne = createMerchant();
+      const merchantTwo = { ...createMerchant(), country: 'Japan' };
+
+      await create(client)(merchantOne);
+      await create(client)(merchantTwo);
+
+      const filter = {
+        limit: 1,
+        offset: 1,
+      };
+
+      const [matchedMerchant] = await getByFilter(client)(filter);
+      expect(matchedMerchant).toStrictEqual(
+        expect.objectContaining(merchantTwo),
+      );
+    });
+
+    test('default order is country field asc', async () => {
+      const scotlandMerchant = { ...createMerchant(), country: 'Scotland' };
+      const japanMerchant = { ...createMerchant(), country: 'Japan' };
+
+      await create(client)(scotlandMerchant);
+      await create(client)(japanMerchant);
+
+      const filter = {
+        limit: 2,
+        offset: 0,
+      };
+
+      const matches = await getByFilter(client)(filter);
+      expect(matches).toStrictEqual([
+        expect.objectContaining(japanMerchant),
+        expect.objectContaining(scotlandMerchant),
+      ]);
     });
   });
 });

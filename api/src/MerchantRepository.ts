@@ -58,3 +58,22 @@ export const getById = (db: IDatabase<Merchant>) => async (
     `,
     { id },
   );
+
+type MerchantSearchFilter = {
+  readonly limit: number;
+  readonly offset: number;
+};
+
+export const getByFilter = (db: IDatabase<Merchant>) => (
+  filter: MerchantSearchFilter,
+): Promise<ReadonlyArray<Merchant>> =>
+  db.query(
+    `
+  SELECT id, status, currency, website_url, country, discount_percentage, created_at, updated_at 
+  FROM merchant
+  ORDER BY country
+  OFFSET $(offset)
+  LIMIT $(limit)
+  `,
+    filter,
+  );
