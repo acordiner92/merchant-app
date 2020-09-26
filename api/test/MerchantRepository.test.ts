@@ -1,10 +1,11 @@
 import { Merchant } from '../src/Merchant';
 import { create } from '../src/MerchantRepository';
-import { getConnection } from '../src/PostgresConnection';
+import { getClient, getConnection } from '../src/PostgresConnection';
 import { createMerchant } from './MerchantFactory';
 
 describe('MerchantRepository', () => {
-  const { client, connection } = getConnection<Merchant>({
+  const connection = getConnection();
+  const client = getClient<Merchant>(connection, {
     user: 'postgres',
     host: 'localhost',
     database: 'merchant_test',

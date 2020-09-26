@@ -29,15 +29,9 @@ const pgOptions: IInitOptions = {
   receive: camelizeColumns,
 };
 
-const pgInstance = pgPromise(pgOptions);
+export const getConnection = (): IMain => pgPromise(pgOptions);
 
-export const getConnection = <T>(
+export const getClient = <T>(
+  connection: IMain,
   configuration: IConnectionParameters,
-): DatabaseConnection<T> => ({
-  connection: pgInstance,
-  client: pgInstance<T>(configuration),
-});
-export type DatabaseConnection<T> = {
-  readonly connection: IMain;
-  readonly client: IDatabase<T>;
-};
+): IDatabase<T> => connection(configuration);
