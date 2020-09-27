@@ -26,21 +26,23 @@ export const MerchantList = ({
         </tr>
       </thead>
       <tbody>
-        {merchants.map((merchant, i) => (
-          <tr key={i}>
-            <td>{merchant.websiteUrl}</td>
-            <td>{merchant.status}</td>
-            <td>{merchant.country}</td>
-            <td>{merchant.currency}</td>
-            <td>{merchant.discountPercentage}</td>
-            <td>
-              <button onClick={() => onEdit(merchant.id)}>edit</button>
-            </td>
-            <td>
-              <button onClick={() => onDelete(merchant.id)}>delete</button>
-            </td>
-          </tr>
-        ))}
+        {!merchants.length && <tr>No Results Found</tr>}
+        {merchants &&
+          merchants.map((merchant, i) => (
+            <tr key={i}>
+              <td>{merchant.websiteUrl}</td>
+              <td>{merchant.status}</td>
+              <td>{merchant.country}</td>
+              <td>{merchant.currency}</td>
+              <td>{merchant.discountPercentage}</td>
+              <td>
+                <button onClick={() => onEdit(merchant.id)}>edit</button>
+              </td>
+              <td>
+                <button onClick={() => onDelete(merchant.id)}>delete</button>
+              </td>
+            </tr>
+          ))}
       </tbody>
     </table>
   );
