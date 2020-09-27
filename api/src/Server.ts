@@ -3,6 +3,7 @@ import { MerchantRouter } from './merchant/MerchantRouter';
 import cors from 'cors';
 import { errorMiddleware } from './ErrorMiddleware';
 import expressPinoLogger from 'express-pino-logger';
+import Logger from './Logger';
 
 export const createServer = (merchantRouter: MerchantRouter): Express => {
   const app = express();
@@ -15,7 +16,7 @@ export const createServer = (merchantRouter: MerchantRouter): Express => {
   app.use('/api/v1/merchant', merchantRouter.router);
 
   // response middlewares
-  app.use(errorMiddleware);
+  app.use(errorMiddleware(Logger));
 
   return app;
 };
