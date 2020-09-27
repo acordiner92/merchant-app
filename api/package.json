@@ -7,7 +7,7 @@
   "scripts": {
     "start": "tsnd --cls src/index.ts",
     "build": "tsc",
-    "formatting": "prettier --check ./src",
+    "format-check": "prettier --check ./src",
     "lint": "eslint ./src",
     "test": "jest ./test",
     "db:migrate:all": "npm run db:migrate:dev & npm run db:migrate:test",

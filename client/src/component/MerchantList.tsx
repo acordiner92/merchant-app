@@ -1,5 +1,5 @@
-import React from "react";
-import { Merchant } from "../service/Merchant";
+import React, { ReactElement } from 'react';
+import { Merchant } from '../service/Merchant';
 
 type MerchantListProps = {
   merchants: ReadonlyArray<Merchant>;
@@ -11,7 +11,7 @@ export const MerchantList = ({
   merchants,
   onEdit,
   onDelete,
-}: MerchantListProps) => {
+}: MerchantListProps): ReactElement => {
   return (
     <table>
       <thead>

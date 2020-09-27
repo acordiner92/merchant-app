@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { MerchantList } from "../component/MerchantList";
-import { Merchant } from "../service/Merchant";
-import { getMerchants, removeMerchant } from "../service/MerchantService";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect, ReactElement } from 'react';
+import { MerchantList } from '../component/MerchantList';
+import { Merchant } from '../service/Merchant';
+import { getMerchants, removeMerchant } from '../service/MerchantService';
+import { useHistory } from 'react-router-dom';
 
-export const MerchantHome = () => {
-  const [merchants, setMerchants] = useState<Merchant[]>([]);
+export const MerchantHome = (): ReactElement => {
+  const [merchants, setMerchants] = useState<ReadonlyArray<Merchant>>([]);
   const history = useHistory();
 
   useEffect(() => {
