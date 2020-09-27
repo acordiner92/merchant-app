@@ -1,11 +1,11 @@
-import { ActivityStatus, Merchant } from '../src/Merchant';
+import { ActivityStatus, Merchant } from '../../src/merchant/Merchant';
 import {
   create,
   getByFilter,
   getById,
   update,
-} from '../src/MerchantRepository';
-import { getClient, getConnection } from '../src/PostgresConnection';
+} from '../../src/merchant/MerchantRepository';
+import { getClient, getConnection } from '../../src/PostgresConnection';
 import { createMerchant } from './MerchantFactory';
 import { v4 as uuid } from 'uuid';
 

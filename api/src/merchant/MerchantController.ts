@@ -1,5 +1,6 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { Merchant, MerchantRequest } from './Merchant';
+import { ResourceNotFound } from '../error/ResourceNotFound';
 import {
   CreateMerchant,
   GetMerchantById,
@@ -37,13 +38,20 @@ export const createMerchant = (createMerchant: CreateMerchant) => async (
 export const updateMerchant = (updateMerchant: UpdateMerchant) => async (
   request: Request,
   response: Response,
-): Promise<Response> => {
+  next: NextFunction,
+): Promise<Response | void> => {
   const { merchantId } = request.params;
   const merchantRequest = request.body as MerchantRequest; // TODO: add validation
 
-  await updateMerchant(merchantId, merchantRequest);
-
-  return response.send(204);
+  const updatedMerchantResult = await updateMerchant(
+    merchantId,
+    merchantRequest,
+  );
+  if (updatedMerchantResult.isErr()) {
+    return next(updatedMerchantResult._unsafeUnwrapErr());
+  } else {
+    return response.sendStatus(204);
+  }
 };
 
 /**
@@ -61,7 +69,7 @@ export const removeMerchant = (removeMerchant: RemoveMerchant) => async (
 
   await removeMerchant(merchantId);
 
-  return response.send(204);
+  return response.sendStatus(204);
 };
 /**
  * Gets a merchant by merchant id endpoint.
@@ -73,11 +81,17 @@ export const removeMerchant = (removeMerchant: RemoveMerchant) => async (
 export const getMerchant = (getMerchantById: GetMerchantById) => async (
   request: Request,
   response: Response,
-): Promise<Response> => {
+  next: NextFunction,
+): Promise<Response | void> => {
   const { merchantId } = request.params;
 
   const merchant = await getMerchantById(merchantId);
-  return response.send(merchant);
+
+  if (!merchant) {
+    return next(new ResourceNotFound(`merchant ${merchantId} is not found`));
+  } else {
+    return response.send(merchant);
+  }
 };
 
 /**

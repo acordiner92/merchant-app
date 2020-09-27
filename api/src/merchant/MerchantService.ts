@@ -8,6 +8,8 @@ import {
 } from './Merchant';
 import * as MerchantRepository from './MerchantRepository';
 import { GetByFilter } from './MerchantRepository';
+import { err, Result, ok } from 'neverthrow';
+import { ResourceNotFound } from '../error/ResourceNotFound';
 
 export const createMerchant = (createToDb: MerchantRepository.Create) => (
   merchantRequest: MerchantRequest,
@@ -21,13 +23,12 @@ export const updateMerchant = (
 ) => async (
   merchantId: string,
   merchantRequest: MerchantRequest,
-): Promise<void> => {
+): Promise<Result<void, ResourceNotFound>> => {
   const existingMerchant = await getById(merchantId);
   if (existingMerchant) {
-    return updateToDb(update(merchantRequest, existingMerchant));
+    return ok(await updateToDb(update(merchantRequest, existingMerchant)));
   } else {
-    // TODO: fix this to return a Result which is either success or failure
-    throw Error('error');
+    return err(new ResourceNotFound(`Merchant ${merchantId} does not exist`));
   }
 };
 export type UpdateMerchant = ReturnType<typeof updateMerchant>;

@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { getUtcDateNow } from '../src/DateUtil';
-import { ActivityStatus, Merchant, MerchantRequest } from '../src/Merchant';
+import { getUtcDateNow } from '../../src/DateUtil';
+import { ActivityStatus, Merchant, MerchantRequest } from '../../src/merchant/Merchant';
 /**
  * Creates an example merchant for testing.
  *

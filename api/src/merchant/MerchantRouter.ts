@@ -8,12 +8,12 @@ import {
   getMerchants,
 } from './MerchantController';
 import { create, update, getById, getByFilter } from './MerchantRepository';
-import { getClient, getConnection } from './PostgresConnection';
+import { getClient, getConnection } from '../PostgresConnection';
 import * as MerchantService from './MerchantService';
 import { IDatabase, IMain } from 'pg-promise';
 import { IConnectionParameters } from 'pg-promise/typescript/pg-subset';
 
-type MerchantRouter = {
+export type MerchantRouter = {
   readonly router: Router;
   readonly dependencies: {
     readonly postgresConnection: IMain;

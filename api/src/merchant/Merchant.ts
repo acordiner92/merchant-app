@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { getUtcDateNow } from './DateUtil';
+import { getUtcDateNow } from '../DateUtil';
 
 export const ActivityStatus = {
   active: 'ACTIVE',

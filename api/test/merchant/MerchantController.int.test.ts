@@ -1,18 +1,15 @@
 import request from 'supertest';
-import { ActivityStatus } from '../src/Merchant';
-import { loadMerchantRoutes } from '../src/MerchantRouter';
-import { createServer } from '../src/Server';
+import { ActivityStatus, remove } from '../../src/merchant/Merchant';
+import { loadMerchantRoutes } from '../../src/merchant/MerchantRouter';
+import { createServer } from '../../src/Server';
 import { createMerchantRequest } from './MerchantFactory';
 import { v4 as uuid } from 'uuid';
-import { getById } from '../src/MerchantRepository';
+import { getById } from '../../src/merchant/MerchantRepository';
 
 describe('MerchantController', () => {
   const routeUrl = '/api/v1/merchant';
-  const app = createServer();
-  const {
-    router,
-    dependencies: { postgresClient, postgresConnection },
-  } = loadMerchantRoutes({
+
+  const merchantRouter = loadMerchantRoutes({
     postgres: {
       user: 'postgres',
       host: 'localhost',
@@ -21,7 +18,10 @@ describe('MerchantController', () => {
       port: 5431,
     },
   });
-  app.use('/api/v1/merchant', router);
+  const {
+    dependencies: { postgresClient, postgresConnection },
+  } = merchantRouter;
+  const app = createServer(merchantRouter);
 
   beforeEach(async () => {
     await postgresClient.none('TRUNCATE merchant CASCADE');
@@ -119,8 +119,8 @@ describe('MerchantController', () => {
       const removedMerchant = await getById(postgresClient)(
         createdResponse.body.id,
       );
-
-      expect(removedMerchant?.isDeleted).toBeTruthy();
+      // since getById wont retrieve deleted merchants is should return null
+      expect(removedMerchant).toBeNull();
     });
   });
 

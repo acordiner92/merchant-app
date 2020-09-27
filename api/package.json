@@ -9,7 +9,7 @@
     "build": "tsc",
     "format-check": "prettier --check ./src",
     "lint": "eslint ./src",
-    "test": "jest ./test",
+    "test": "jest ./test --runInBand",
     "db:migrate:all": "npm run db:migrate:dev & npm run db:migrate:test",
     "db:migrate:dev": "docker run --rm -v $PWD/scripts/migrations:/flyway/sql flyway/flyway:6 -url=jdbc:postgresql://host.docker.internal:5432/merchant -user=postgres -password=postgres migrate",
     "db:migrate:test": "docker run --rm -v $PWD/scripts/migrations:/flyway/sql flyway/flyway:6 -url=jdbc:postgresql://host.docker.internal:5431/merchant_test -user=postgres -password=postgres migrate"
@@ -46,6 +46,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "neverthrow": "^2.7.1",
     "pg-promise": "^10.6.1",
     "uuid": "^8.3.0"
   }

@@ -1,5 +1,5 @@
-import { utcDate } from '../src/DateUtil';
-import { ActivityStatus, create, remove, update } from '../src/Merchant';
+import { utcDate } from '../../src/DateUtil';
+import { ActivityStatus, create, remove, update } from '../../src/merchant/Merchant';
 import { createMerchant, createMerchantRequest } from './MerchantFactory';
 
 const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
