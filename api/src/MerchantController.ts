@@ -8,6 +8,13 @@ import {
   UpdateMerchant,
 } from './MerchantService';
 
+/**
+ * Create a new merchant endpoint.
+ *
+ * @param {Request} request
+ * @param {Response} response
+ * @returns {Promise<Response<Merchant>>}
+ */
 export const createMerchant = (createMerchant: CreateMerchant) => async (
   request: Request,
   response: Response,
@@ -19,6 +26,14 @@ export const createMerchant = (createMerchant: CreateMerchant) => async (
   return response.status(201).send(createdMerchant);
 };
 
+/**
+ * Updates an existing merchant endpoint.
+ * Will return 404 if merchant does not exist.
+ *
+ * @param {Request} request
+ * @param {Response} response
+ * @returns {Promise<Response>}
+ */
 export const updateMerchant = (updateMerchant: UpdateMerchant) => async (
   request: Request,
   response: Response,
@@ -31,6 +46,13 @@ export const updateMerchant = (updateMerchant: UpdateMerchant) => async (
   return response.send(204);
 };
 
+/**
+ * Deletes a merchant endpoint.
+ *
+ * @param {Request} request
+ * @param {Response} response
+ * @returns {Promise<Response>}
+ */
 export const removeMerchant = (removeMerchant: RemoveMerchant) => async (
   request: Request,
   response: Response,
@@ -41,7 +63,13 @@ export const removeMerchant = (removeMerchant: RemoveMerchant) => async (
 
   return response.send(204);
 };
-
+/**
+ * Gets a merchant by merchant id endpoint.
+ *
+ * @param {Request} request
+ * @param {Response} response
+ * @returns {Promise<Response>}
+ */
 export const getMerchant = (getMerchantById: GetMerchantById) => async (
   request: Request,
   response: Response,
@@ -52,6 +80,13 @@ export const getMerchant = (getMerchantById: GetMerchantById) => async (
   return response.send(merchant);
 };
 
+/**
+ * Gets a list of merchant by a search filter endpoint.
+ *
+ * @param {Request} request
+ * @param {Response} response
+ * @returns {Promise<Response<ReadonlyArray<Merchant>>>}
+ */
 export const getMerchants = (
   getMerchantsByFilter: GetMerchantsByFilter,
 ) => async (
