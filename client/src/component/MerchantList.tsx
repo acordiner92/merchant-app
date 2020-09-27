@@ -26,10 +26,14 @@ export const MerchantList = ({
         </tr>
       </thead>
       <tbody>
-        {!merchants.length && <tr>No Results Found</tr>}
+        {!merchants.length && (
+          <tr>
+            <td>No Results Found</td>
+          </tr>
+        )}
         {merchants &&
           merchants.map((merchant, i) => (
-            <tr key={i}>
+            <tr data-testid="merchant-list-item" key={i}>
               <td>{merchant.websiteUrl}</td>
               <td>{merchant.status}</td>
               <td>{merchant.country}</td>
