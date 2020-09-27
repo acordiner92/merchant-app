@@ -41,6 +41,7 @@ export const update = (db: IDatabase<Merchant>) => async (
     merchant,
   );
 };
+export type Update = ReturnType<typeof update>;
 
 /**
  * Gets a merchant by id. if no match is found then

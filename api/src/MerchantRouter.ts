@@ -1,7 +1,11 @@
 import express, { Router } from 'express';
 import { Merchant } from './Merchant';
-import { createMerchant, getMerchant } from './MerchantController';
-import { create, getById } from './MerchantRepository';
+import {
+  createMerchant,
+  updateMerchant,
+  getMerchant,
+} from './MerchantController';
+import { create, update, getById } from './MerchantRepository';
 import { getClient, getConnection } from './PostgresConnection';
 import * as MerchantService from './MerchantService';
 import { IDatabase, IMain } from 'pg-promise';
@@ -29,9 +33,13 @@ export const loadMerchantRoutes = (config: MerchantConfig): MerchantRouter => {
   // Added dependencies in via partial application.
   const getByIdFn = getById(dbClient);
   const createMerchantFn = MerchantService.createMerchant(create(dbClient));
+  const updateMerchantFn = MerchantService.updateMerchant(
+    update(dbClient),
+    getByIdFn,
+  );
 
   router.post('/', createMerchant(createMerchantFn));
-
+  router.put('/:merchantId', updateMerchant(updateMerchantFn));
   router.get('/:merchantId', getMerchant(getByIdFn));
 
   return {

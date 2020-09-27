@@ -32,3 +32,12 @@ export const create = (merchantRequest: MerchantRequest): Merchant => ({
   createdAt: getUtcDateNow(),
   updatedAt: getUtcDateNow(),
 });
+
+export const update = (
+  merchantRequest: MerchantRequest,
+  existingMerchant: Merchant,
+): Merchant => ({
+  ...existingMerchant,
+  ...merchantRequest,
+  updatedAt: getUtcDateNow(),
+});

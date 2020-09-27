@@ -51,6 +51,44 @@ describe('MerchantController', () => {
     });
   });
 
+  describe('updateMerchant', () => {
+    test('Merchant is updated', async () => {
+      const merchantRequest = createMerchantRequest();
+      const createdResponse = await request(app)
+        .post(routeUrl)
+        .send(merchantRequest);
+      await request(app)
+        .put(`${routeUrl}/${createdResponse.body.id}`)
+        .send({ ...merchantRequest, currency: 'USD' });
+
+      const response = await request(app).get(
+        `${routeUrl}/${createdResponse.body.id}`,
+      );
+      expect(response.body.currency).toBe('USD');
+    });
+
+    test('204 status is returned', async () => {
+      const merchantRequest = createMerchantRequest();
+      const createdResponse = await request(app)
+        .post(routeUrl)
+        .send(merchantRequest);
+
+      await request(app)
+        .put(`${routeUrl}/${createdResponse.body.id}`)
+        .send({ ...merchantRequest, currency: 'USD' })
+        .expect(204);
+    });
+
+    test('404 status is returned if merchant is not found', async () => {
+      const merchantRequest = createMerchantRequest();
+      const nonExistentId = uuid();
+      await request(app)
+        .put(`${routeUrl}/${nonExistentId}`)
+        .send(merchantRequest)
+        .expect(404);
+    });
+  });
+
   describe('getMerchant', () => {
     test('404 is returned if no merchant is found', async () => {
       const nonExistentId = uuid();
