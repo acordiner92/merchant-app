@@ -3,9 +3,10 @@ import { Merchant } from "../service/Merchant";
 
 type MerchantListProps = {
   merchants: ReadonlyArray<Merchant>;
+  onEdit: (merchantId: string) => void;
 };
 
-export const MerchantList = ({ merchants }: MerchantListProps) => {
+export const MerchantList = ({ merchants, onEdit }: MerchantListProps) => {
   return (
     <table>
       <thead>
@@ -15,6 +16,7 @@ export const MerchantList = ({ merchants }: MerchantListProps) => {
           <th>Country</th>
           <th>Currency</th>
           <th>Discount (%)</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +27,9 @@ export const MerchantList = ({ merchants }: MerchantListProps) => {
             <td>{merchant.country}</td>
             <td>{merchant.currency}</td>
             <td>{merchant.discountPercentage}</td>
+            <td>
+              <button onClick={() => onEdit(merchant.id)}>edit</button>
+            </td>
           </tr>
         ))}
       </tbody>

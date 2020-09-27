@@ -2,7 +2,6 @@ import { MerchantRequest } from "./Merchant";
 
 const routeUrl = "http://localhost:8080/api/v1/merchant";
 export const createMerchant = async (merchantRequest: MerchantRequest) => {
-  console.log(merchantRequest);
   const createdMerchant = await fetch(routeUrl, {
     method: "POST",
     headers: {

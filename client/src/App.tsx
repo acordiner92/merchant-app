@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import { Merchant } from "./page/Merchant";
+import { MerchantEdit } from "./page/MerchantEdit";
 import { MerchantHome } from "./page/MerchantHome";
 
 function App() {
@@ -13,14 +13,14 @@ function App() {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/merchant/new">Create Merchant</Link>
+              <Link to="/merchant">Create Merchant</Link>
             </li>
           </ul>
         </nav>
 
         <Switch>
-          <Route path="/merchant/new">
-            <Merchant />
+          <Route path="/merchant/:id?">
+            <MerchantEdit />
           </Route>
           <Route path="/">
             <MerchantHome />

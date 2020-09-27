@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ActivityStatus, Merchant, MerchantRequest } from "../service/Merchant";
 
 type MerchantFormProps = {
-  defaultValues?: MerchantRequest;
+  initialValues?: MerchantRequest;
   onSubmit: SubmitHandler<MerchantRequest>;
 };
 
 export const MerchantForm = ({
   onSubmit,
-  defaultValues,
+  initialValues,
 }: MerchantFormProps) => {
-  const { register, handleSubmit, errors } = useForm<MerchantRequest>({
-    defaultValues,
+  const { register, handleSubmit, errors, reset } = useForm<MerchantRequest>({
+    defaultValues: initialValues,
   });
+
+  useEffect(() => {
+    reset({ ...initialValues });
+  }, [initialValues]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
