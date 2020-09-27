@@ -1,4 +1,4 @@
-import { create, Merchant, MerchantRequest, update } from './Merchant';
+import { create, Merchant, MerchantRequest, remove, update } from './Merchant';
 import * as MerchantRepository from './MerchantRepository';
 
 export const createMerchant = (createToDb: MerchantRepository.Create) => (
@@ -23,6 +23,19 @@ export const updateMerchant = (
   }
 };
 export type UpdateMerchant = ReturnType<typeof updateMerchant>;
+
+export const removeMerchant = (
+  updateToDb: MerchantRepository.Update,
+  getById: MerchantRepository.GetById,
+) => async (merchantId: string): Promise<void> => {
+  const existingMerchant = await getById(merchantId);
+  if (existingMerchant) {
+    return updateToDb(remove(existingMerchant));
+  } else {
+    return;
+  }
+};
+export type RemoveMerchant = ReturnType<typeof removeMerchant>;
 
 export const getMerchantById = (getById: MerchantRepository.GetById) => (
   merchantId: string,

@@ -12,10 +12,10 @@ export const create = (db: IDatabase<Merchant>) => (
   db.one(
     `
     INSERT INTO merchant
-    (id, status, currency, website_url, country, discount_percentage, created_at, updated_at)
+    (id, status, currency, website_url, country, discount_percentage, is_deleted, created_at, updated_at)
     VALUES ($(id), $(status), $(currency), $(websiteUrl), 
-        $(country), $(discountPercentage), $(createdAt), $(updatedAt))
-    RETURNING id, status, currency, website_url, country, discount_percentage, created_at, updated_at
+        $(country), $(discountPercentage), $(isDeleted), $(createdAt), $(updatedAt))
+    RETURNING id, status, currency, website_url, country, discount_percentage, is_deleted, created_at, updated_at
     `,
     merchant,
   );
@@ -35,7 +35,7 @@ export const update = (db: IDatabase<Merchant>) => async (
     `
   UPDATE merchant
   SET status=$(status), currency=$(currency), website_url=$(websiteUrl), country=$(country), 
-  discount_percentage=$(discountPercentage), updated_at=$(updatedAt)
+  discount_percentage=$(discountPercentage), updated_at=$(updatedAt), is_deleted=$(isDeleted)
   WHERE id=$(id)
   `,
     merchant,
@@ -55,7 +55,7 @@ export const getById = (db: IDatabase<Merchant>) => async (
 ): Promise<Merchant | null> =>
   db.oneOrNone(
     `
-    SELECT id, status, currency, website_url, country, discount_percentage, created_at, updated_at
+    SELECT id, status, currency, website_url, country, discount_percentage, is_deleted, created_at, updated_at
     FROM merchant
     WHERE id = $(id)
     `,
@@ -79,7 +79,7 @@ export const getByFilter = (db: IDatabase<Merchant>) => (
 ): Promise<ReadonlyArray<Merchant>> =>
   db.query(
     `
-  SELECT id, status, currency, website_url, country, discount_percentage, created_at, updated_at 
+  SELECT id, status, currency, website_url, country, discount_percentage, is_deleted, created_at, updated_at 
   FROM merchant
   ORDER BY country
   OFFSET $(offset)

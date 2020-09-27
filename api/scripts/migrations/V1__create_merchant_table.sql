@@ -8,6 +8,7 @@ CREATE TABLE MERCHANT(
    website_url TEXT NOT NULL,
    country TEXT NOT NULL,
    discount_percentage FLOAT NOT NULL, 
+   is_deleted BOOLEAN NOT NULL,
    created_at TIMESTAMP NOT NULL,
    updated_at TIMESTAMP NOT NULL
 );

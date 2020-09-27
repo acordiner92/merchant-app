@@ -3,6 +3,7 @@ import { Merchant } from './Merchant';
 import {
   createMerchant,
   updateMerchant,
+  removeMerchant,
   getMerchant,
 } from './MerchantController';
 import { create, update, getById } from './MerchantRepository';
@@ -37,9 +38,15 @@ export const loadMerchantRoutes = (config: MerchantConfig): MerchantRouter => {
     update(dbClient),
     getByIdFn,
   );
+  const removeMerchantFn = MerchantService.removeMerchant(
+    update(dbClient),
+    getByIdFn,
+  );
 
   router.post('/', createMerchant(createMerchantFn));
   router.put('/:merchantId', updateMerchant(updateMerchantFn));
+  router.delete('/:merchantId', removeMerchant(removeMerchantFn));
+
   router.get('/:merchantId', getMerchant(getByIdFn));
 
   return {

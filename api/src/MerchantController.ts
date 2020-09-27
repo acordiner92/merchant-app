@@ -3,6 +3,7 @@ import { Merchant, MerchantRequest } from './Merchant';
 import {
   CreateMerchant,
   GetMerchantById,
+  RemoveMerchant,
   UpdateMerchant,
 } from './MerchantService';
 
@@ -25,6 +26,17 @@ export const updateMerchant = (updateMerchant: UpdateMerchant) => async (
   const merchantRequest = request.body as MerchantRequest; // TODO: add validation
 
   await updateMerchant(merchantId, merchantRequest);
+
+  return response.send(204);
+};
+
+export const removeMerchant = (removeMerchant: RemoveMerchant) => async (
+  request: Request,
+  response: Response,
+): Promise<Response> => {
+  const { merchantId } = request.params;
+
+  await removeMerchant(merchantId);
 
   return response.send(204);
 };

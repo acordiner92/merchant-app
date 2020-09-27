@@ -1,5 +1,5 @@
 import { utcDate } from '../src/DateUtil';
-import { ActivityStatus, create, update } from '../src/Merchant';
+import { ActivityStatus, create, remove, update } from '../src/Merchant';
 import { createMerchant, createMerchantRequest } from './MerchantFactory';
 
 const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
@@ -48,6 +48,14 @@ describe('Merchant', () => {
       expect(updatedMerchant.updatedAt.getTime()).toBeGreaterThan(
         dateBefore.getTime(),
       );
+    });
+  });
+
+  describe('remove', () => {
+    test('isDelete field is set to true', () => {
+      const existingMerchant = createMerchant();
+      const deletedMerchant = remove(existingMerchant);
+      expect(deletedMerchant.isDeleted).toBeTruthy();
     });
   });
 });

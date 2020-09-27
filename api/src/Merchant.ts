@@ -16,6 +16,7 @@ export type Merchant = {
   readonly discountPercentage: number;
   readonly createdAt: Date;
   readonly updatedAt: Date;
+  readonly isDeleted: boolean;
 };
 
 export type MerchantRequest = {
@@ -31,6 +32,7 @@ export const create = (merchantRequest: MerchantRequest): Merchant => ({
   id: uuid(),
   createdAt: getUtcDateNow(),
   updatedAt: getUtcDateNow(),
+  isDeleted: false,
 });
 
 export const update = (
@@ -40,4 +42,9 @@ export const update = (
   ...existingMerchant,
   ...merchantRequest,
   updatedAt: getUtcDateNow(),
+});
+
+export const remove = (existingMerchant: Merchant): Merchant => ({
+  ...existingMerchant,
+  isDeleted: true,
 });

@@ -4,6 +4,7 @@ import { loadMerchantRoutes } from '../src/MerchantRouter';
 import { createServer } from '../src/Server';
 import { createMerchantRequest } from './MerchantFactory';
 import { v4 as uuid } from 'uuid';
+import { getById } from '../src/MerchantRepository';
 
 describe('MerchantController', () => {
   const routeUrl = '/api/v1/merchant';
@@ -86,6 +87,40 @@ describe('MerchantController', () => {
         .put(`${routeUrl}/${nonExistentId}`)
         .send(merchantRequest)
         .expect(404);
+    });
+  });
+
+  describe('removeMerchant', () => {
+    test('204 status is returned', async () => {
+      const merchantRequest = createMerchantRequest();
+      const createdResponse = await request(app)
+        .post(routeUrl)
+        .send(merchantRequest);
+
+      await request(app)
+        .delete(`${routeUrl}/${createdResponse.body.id}`)
+        .expect(204);
+    });
+
+    test('204 status is returned if merchant does not exist', async () => {
+      const nonExistentId = uuid();
+
+      await request(app).delete(`${routeUrl}/${nonExistentId}`).expect(204);
+    });
+
+    test('removed merchant is soft deleted', async () => {
+      const merchantRequest = createMerchantRequest();
+      const createdResponse = await request(app)
+        .post(routeUrl)
+        .send(merchantRequest);
+
+      await request(app).delete(`${routeUrl}/${createdResponse.body.id}`);
+
+      const removedMerchant = await getById(postgresClient)(
+        createdResponse.body.id,
+      );
+
+      expect(removedMerchant?.isDeleted).toBeTruthy();
     });
   });
 
