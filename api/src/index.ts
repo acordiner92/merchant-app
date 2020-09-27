@@ -1,5 +1,6 @@
 import { loadMerchantRoutes } from './merchant/MerchantRouter';
 import { createServer } from './Server';
+import Logger from './Logger';
 
 const merchantConfig = {
   postgres: {
@@ -13,6 +14,4 @@ const merchantConfig = {
 
 const app = createServer(loadMerchantRoutes(merchantConfig));
 
-app.listen(8080, () => {
-  console.log('started app');
-});
+app.listen(8080, () => Logger.info('Started merchant api...'));
