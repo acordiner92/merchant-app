@@ -1,5 +1,5 @@
 import { IDatabase } from 'pg-promise';
-import { Merchant } from './Merchant';
+import { Merchant, MerchantSearchFilter } from './Merchant';
 /**
  * Inserts a new merchant to the database.
  *
@@ -57,16 +57,11 @@ export const getById = (db: IDatabase<Merchant>) => async (
     `
     SELECT id, status, currency, website_url, country, discount_percentage, is_deleted, created_at, updated_at
     FROM merchant
-    WHERE id = $(id)
+    WHERE id = $(id) AND is_deleted=false
     `,
     { id },
   );
 export type GetById = ReturnType<typeof getById>;
-
-type MerchantSearchFilter = {
-  readonly limit: number;
-  readonly offset: number;
-};
 
 /**
  * Gets a list of merchants by search filter options.
@@ -81,9 +76,11 @@ export const getByFilter = (db: IDatabase<Merchant>) => (
     `
   SELECT id, status, currency, website_url, country, discount_percentage, is_deleted, created_at, updated_at 
   FROM merchant
+  WHERE is_deleted=false
   ORDER BY country
   OFFSET $(offset)
   LIMIT $(limit)
   `,
     filter,
   );
+export type GetByFilter = ReturnType<typeof getByFilter>;

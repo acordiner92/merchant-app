@@ -154,4 +154,40 @@ describe('MerchantController', () => {
         .expect(200);
     });
   });
+
+  describe('getMerchant', () => {
+    test('merchants are returned', async () => {
+      const merchantRequest = createMerchantRequest();
+      const createdResponse = await request(app)
+        .post(routeUrl)
+        .send(merchantRequest);
+
+      const response = await request(app).get(`${routeUrl}`);
+      expect(response.body).toStrictEqual([createdResponse.body]);
+    });
+
+    test('merchants are returned', async () => {
+      const merchantRequest = createMerchantRequest();
+      await request(app).post(routeUrl).send(merchantRequest);
+
+      await request(app).get(`${routeUrl}`).expect(200);
+    });
+
+    test('empty array is returned if no results', async () => {
+      const response = await request(app).get(`${routeUrl}`).expect(200);
+      expect(response.body).toStrictEqual([]);
+    });
+
+    test('deleted merchants are not returned', async () => {
+      const merchantRequest = createMerchantRequest();
+      const createdResponse = await request(app)
+        .post(routeUrl)
+        .send(merchantRequest);
+
+      await request(app).delete(`${routeUrl}/${createdResponse.body.id}`);
+
+      const response = await request(app).get(`${routeUrl}`);
+      expect(response.body).toStrictEqual([]);
+    });
+  });
 });

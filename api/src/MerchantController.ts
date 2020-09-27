@@ -3,6 +3,7 @@ import { Merchant, MerchantRequest } from './Merchant';
 import {
   CreateMerchant,
   GetMerchantById,
+  GetMerchantsByFilter,
   RemoveMerchant,
   UpdateMerchant,
 } from './MerchantService';
@@ -49,4 +50,19 @@ export const getMerchant = (getMerchantById: GetMerchantById) => async (
 
   const merchant = await getMerchantById(merchantId);
   return response.send(merchant);
+};
+
+export const getMerchants = (
+  getMerchantsByFilter: GetMerchantsByFilter,
+) => async (
+  request: Request,
+  response: Response,
+): Promise<Response<ReadonlyArray<Merchant>>> => {
+  const { limit, offset } = request.query; // TODO: validation
+
+  const merchants = await getMerchantsByFilter({
+    limit: limit ? parseInt(limit.toString()) : 100,
+    offset: offset ? parseInt(offset.toString()) : 100,
+  });
+  return response.send(merchants);
 };

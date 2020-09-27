@@ -26,6 +26,10 @@ export type MerchantRequest = {
   readonly country: string;
   readonly discountPercentage: number;
 };
+export type MerchantSearchFilter = {
+  readonly limit: number;
+  readonly offset: number;
+};
 
 export const create = (merchantRequest: MerchantRequest): Merchant => ({
   ...merchantRequest,

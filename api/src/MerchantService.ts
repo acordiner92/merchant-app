@@ -1,5 +1,13 @@
-import { create, Merchant, MerchantRequest, remove, update } from './Merchant';
+import {
+  create,
+  Merchant,
+  MerchantRequest,
+  MerchantSearchFilter,
+  remove,
+  update,
+} from './Merchant';
 import * as MerchantRepository from './MerchantRepository';
+import { GetByFilter } from './MerchantRepository';
 
 export const createMerchant = (createToDb: MerchantRepository.Create) => (
   merchantRequest: MerchantRequest,
@@ -41,3 +49,8 @@ export const getMerchantById = (getById: MerchantRepository.GetById) => (
   merchantId: string,
 ): Promise<Merchant | null> => getById(merchantId);
 export type GetMerchantById = ReturnType<typeof getMerchantById>;
+
+export const getMerchantsByFilter = (getByFilter: GetByFilter) => (
+  filter: MerchantSearchFilter,
+): Promise<ReadonlyArray<Merchant>> => getByFilter(filter);
+export type GetMerchantsByFilter = ReturnType<typeof getMerchantsByFilter>;
