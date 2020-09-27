@@ -13,6 +13,8 @@ export const createMerchant = async (
     body: JSON.stringify(merchantRequest),
   });
 
+  console.log(merchantRequest);
+
   return createdMerchant.json();
 };
 

@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { ActivityStatus, MerchantRequest } from '../service/Merchant';
 
 type MerchantFormProps = {
@@ -11,7 +11,9 @@ export const MerchantForm = ({
   onSubmit,
   initialValues,
 }: MerchantFormProps): ReactElement => {
-  const { register, handleSubmit, errors, reset } = useForm<MerchantRequest>({
+  const { register, handleSubmit, errors, reset, control } = useForm<
+    MerchantRequest
+  >({
     defaultValues: initialValues,
   });
 
@@ -45,7 +47,18 @@ export const MerchantForm = ({
       {errors.websiteUrl && <span>This field is required</span>}
 
       <label>Discount (%)*</label>
-      <input name="discountPercentage" ref={register({ required: true })} />
+      <Controller
+        name="discountPercentage"
+        render={({ value, onChange }) => (
+          <input
+            type="number"
+            value={value}
+            onChange={e => onChange(parseFloat(e.target.value))}
+          />
+        )}
+        control={control}
+        defaultValue={0}
+      ></Controller>
       {errors.discountPercentage && <span>This field is required</span>}
 
       <button type="submit">Save</button>
