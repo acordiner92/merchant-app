@@ -19,6 +19,7 @@ Client:
 
 - Error handling on the client MerchantService to handle error views (e.g notifying an alert banner via redux store)
 - Mounted tests for MerchantForm to test required field logic
+- Use a properly css library like tailwind + utilizing sass
 
 ## Requirements
 
