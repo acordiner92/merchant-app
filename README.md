@@ -1,6 +1,6 @@
 # merchant-app
 
-Merchant App which can create, update, delete, view and view multiple.
+Merchant App which can create, update, delete, view and view multiple merchants.
 
 ## Notes
 
