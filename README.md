@@ -5,9 +5,14 @@ Merchant App which can create, update, delete, view and view multiple.
 ## Notes
 
 A few things that are missing/enhancements from this project are the following:
+
+- Went with mono repo for project convenience but in the real world ideally I would prefer separate repositories
+
 Api:
 
 - Events being emitted in the MerchantService and having an log subscriber to log the event for traceability
+- More extensive validation like ids are uuid type, etc.
+- Move validation into a middleware layer to make the controller leaner and not muddled with validation logic.
 
 Client:
 
