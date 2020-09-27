@@ -1,4 +1,5 @@
 import { ResourceNotFound } from './error/ResourceNotFound';
+import { ValidationError } from './error/ValidationError';
 export type HttpErrorResponse = {
   readonly statusCode: number;
   readonly message: string;
@@ -9,6 +10,12 @@ export const mapErrorToHttpError = (error: Error): HttpErrorResponse => {
     case ResourceNotFound: {
       return {
         statusCode: 404,
+        message: error.message,
+      };
+    }
+    case ValidationError: {
+      return {
+        statusCode: 400,
         message: error.message,
       };
     }

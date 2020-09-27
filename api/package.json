@@ -53,6 +53,7 @@
     "neverthrow": "^2.7.1",
     "pg-promise": "^10.6.1",
     "pino": "^6.6.1",
+    "runtypes": "^5.0.1",
     "uuid": "^8.3.0"
   }
 }

@@ -50,6 +50,14 @@ describe('MerchantController', () => {
       const merchantRequest = createMerchantRequest();
       await request(app).post(routeUrl).send(merchantRequest).expect(201);
     });
+
+    test('400 status is returned if request is invalid', async () => {
+      const merchantRequest = createMerchantRequest();
+      await request(app)
+        .post(routeUrl)
+        .send({ ...merchantRequest, discountPercentage: 'wrongValue' })
+        .expect(400);
+    });
   });
 
   describe('updateMerchant', () => {
@@ -78,6 +86,18 @@ describe('MerchantController', () => {
         .put(`${routeUrl}/${createdResponse.body.id}`)
         .send({ ...merchantRequest, currency: 'USD' })
         .expect(204);
+    });
+
+    test('400 status is returned if request is invalid', async () => {
+      const merchantRequest = createMerchantRequest();
+      const createdResponse = await request(app)
+        .post(routeUrl)
+        .send(merchantRequest);
+
+      await request(app)
+        .put(`${routeUrl}/${createdResponse.body.id}`)
+        .send({ ...merchantRequest, discountPercentage: 'wrongValue' })
+        .expect(400);
     });
 
     test('404 status is returned if merchant is not found', async () => {

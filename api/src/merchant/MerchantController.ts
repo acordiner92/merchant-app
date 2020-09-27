@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Merchant, MerchantRequest } from './Merchant';
 import { ResourceNotFound } from '../error/ResourceNotFound';
+import { ValidationError } from '../error/ValidationError';
 import {
   CreateMerchant,
   GetMerchantById,
@@ -8,6 +9,15 @@ import {
   RemoveMerchant,
   UpdateMerchant,
 } from './MerchantService';
+import { Record, String, Number } from 'runtypes';
+
+const MerchantRequestRunType = Record({
+  status: String,
+  currency: String,
+  websiteUrl: String,
+  country: String,
+  discountPercentage: Number,
+});
 
 /**
  * Create a new merchant endpoint.
@@ -19,12 +29,19 @@ import {
 export const createMerchant = (createMerchant: CreateMerchant) => async (
   request: Request,
   response: Response,
-): Promise<Response<Merchant>> => {
-  const merchantRequest = request.body as MerchantRequest; // TODO: add validation
-
-  const createdMerchant = await createMerchant(merchantRequest);
-
-  return response.status(201).send(createdMerchant);
+  next: NextFunction,
+): Promise<Response<Merchant> | void> => {
+  const validation = MerchantRequestRunType.validate(request.body);
+  if (validation.success) {
+    const createdMerchant = await createMerchant(validation.value);
+    return response.status(201).send(createdMerchant);
+  } else {
+    return next(
+      new ValidationError(
+        `key: ${validation.key} error: ${validation.message}`,
+      ),
+    );
+  }
 };
 
 /**
@@ -41,16 +58,23 @@ export const updateMerchant = (updateMerchant: UpdateMerchant) => async (
   next: NextFunction,
 ): Promise<Response | void> => {
   const { merchantId } = request.params;
-  const merchantRequest = request.body as MerchantRequest; // TODO: add validation
-
-  const updatedMerchantResult = await updateMerchant(
-    merchantId,
-    merchantRequest,
-  );
-  if (updatedMerchantResult.isErr()) {
-    return next(updatedMerchantResult._unsafeUnwrapErr());
+  const validation = MerchantRequestRunType.validate(request.body);
+  if (validation.success) {
+    const updatedMerchantResult = await updateMerchant(
+      merchantId,
+      validation.value,
+    );
+    if (updatedMerchantResult.isErr()) {
+      return next(updatedMerchantResult._unsafeUnwrapErr());
+    } else {
+      return response.sendStatus(204);
+    }
   } else {
-    return response.sendStatus(204);
+    return next(
+      new ValidationError(
+        `key: ${validation.key} error: ${validation.message}`,
+      ),
+    );
   }
 };
 
@@ -107,7 +131,7 @@ export const getMerchants = (
   request: Request,
   response: Response,
 ): Promise<Response<ReadonlyArray<Merchant>>> => {
-  const { limit, offset } = request.query; // TODO: validation
+  const { limit, offset } = request.query;
 
   const merchants = await getMerchantsByFilter({
     limit: limit ? parseInt(limit.toString()) : 100,
