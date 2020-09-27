@@ -32,7 +32,7 @@ export const loadMerchantRoutes = (config: MerchantConfig): MerchantRouter => {
 
   router.post('/', createMerchant(createMerchantFn));
 
-  router.get('/:id', getMerchant(getByIdFn));
+  router.get('/:merchantId', getMerchant(getByIdFn));
 
   return {
     router,
