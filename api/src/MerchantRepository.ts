@@ -20,6 +20,8 @@ export const create = (db: IDatabase<Merchant>) => (
     merchant,
   );
 
+export type Create = ReturnType<typeof create>;
+
 /**
  * Updates an existing merchant in the database.
  *
@@ -58,6 +60,7 @@ export const getById = (db: IDatabase<Merchant>) => async (
     `,
     { id },
   );
+export type GetById = ReturnType<typeof getById>;
 
 type MerchantSearchFilter = {
   readonly limit: number;
