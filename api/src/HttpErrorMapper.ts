@@ -5,6 +5,12 @@ export type HttpErrorResponse = {
   readonly message: string;
 };
 
+/**
+ * Express error handler that maps application errors
+ * to Http Error responses.
+ * @param {Error} error
+ * @returns {HttpErrorResponse}
+ */
 export const mapErrorToHttpError = (error: Error): HttpErrorResponse => {
   switch (Object.getPrototypeOf(error).constructor) {
     case ResourceNotFound: {

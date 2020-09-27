@@ -31,14 +31,27 @@ export type MerchantSearchFilter = {
   readonly offset: number;
 };
 
+/**
+ * Creates a new instance of a merchant from a merchant request.
+ *
+ * @param {MerchantRequest} merchantRequest
+ * @returns {Merchant}
+ */
 export const create = (merchantRequest: MerchantRequest): Merchant => ({
   ...merchantRequest,
   id: uuid(),
+
   createdAt: getUtcDateNow(),
   updatedAt: getUtcDateNow(),
   isDeleted: false,
 });
 
+/**
+ * Returns an updated merchant from the applied merchant request.
+ *
+ * @param {MerchantRequest} merchantRequest
+ * @returns {Merchant}
+ */
 export const update = (
   merchantRequest: MerchantRequest,
   existingMerchant: Merchant,
@@ -48,6 +61,12 @@ export const update = (
   updatedAt: getUtcDateNow(),
 });
 
+/**
+ * Marks merchant as deleted.
+ *
+ * @param {Merchant} existingMerchant
+ * @returns {Merchant}
+ */
 export const remove = (existingMerchant: Merchant): Merchant => ({
   ...existingMerchant,
   isDeleted: true,
