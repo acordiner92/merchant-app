@@ -97,7 +97,7 @@ export const getMerchants = (
 
   const merchants = await getMerchantsByFilter({
     limit: limit ? parseInt(limit.toString()) : 100,
-    offset: offset ? parseInt(offset.toString()) : 100,
+    offset: offset ? parseInt(offset.toString()) : 0,
   });
   return response.send(merchants);
 };
