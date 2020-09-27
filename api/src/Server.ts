@@ -1,5 +1,6 @@
 import express, { Express } from 'express';
 import { loadMerchantRoutes } from './MerchantRouter';
+import cors from 'cors';
 
 export const createServer = (): Express => {
   const app = express();
@@ -16,6 +17,7 @@ export const createServer = (): Express => {
 
   // global middlewares
   app.use(express.json());
+  app.use(cors());
 
   app.use('/api/v1/merchant', loadMerchantRoutes(merchantConfig).router);
 
