@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Merchant } from '../service/Merchant';
+import './MerchantList.css';
 
 type MerchantListProps = {
   merchants: ReadonlyArray<Merchant>;
@@ -13,8 +14,8 @@ export const MerchantList = ({
   onDelete,
 }: MerchantListProps): ReactElement => {
   return (
-    <table>
-      <thead>
+    <table className="table">
+      <thead className="table-header">
         <tr>
           <th>Website</th>
           <th>Status</th>
@@ -33,17 +34,24 @@ export const MerchantList = ({
         )}
         {merchants &&
           merchants.map((merchant, i) => (
-            <tr data-testid="merchant-list-item" key={i}>
+            <tr className="table-row" data-testid="merchant-list-item" key={i}>
               <td>{merchant.websiteUrl}</td>
               <td>{merchant.status}</td>
               <td>{merchant.country}</td>
               <td>{merchant.currency}</td>
               <td>{merchant.discountPercentage}</td>
               <td>
-                <button onClick={() => onEdit(merchant.id)}>edit</button>
+                <button className="button" onClick={() => onEdit(merchant.id)}>
+                  edit
+                </button>
               </td>
               <td>
-                <button onClick={() => onDelete(merchant.id)}>delete</button>
+                <button
+                  className="button"
+                  onClick={() => onDelete(merchant.id)}
+                >
+                  delete
+                </button>
               </td>
             </tr>
           ))}

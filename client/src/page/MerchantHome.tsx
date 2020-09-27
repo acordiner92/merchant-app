@@ -21,13 +21,13 @@ export const MerchantHome = (): ReactElement => {
   };
 
   return (
-    <>
-      <h1>View Merchants</h1>
+    <div className="merchant-home">
+      <h1>Merchants</h1>
       <MerchantList
         onEdit={onEdit}
         onDelete={onDelete}
         merchants={merchants}
       ></MerchantList>
-    </>
+    </div>
   );
 };

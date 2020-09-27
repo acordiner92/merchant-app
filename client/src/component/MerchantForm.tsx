@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { ActivityStatus, MerchantRequest } from '../service/Merchant';
+import './MerchantForm.css';
 
 type MerchantFormProps = {
   initialValues?: MerchantRequest;
@@ -22,28 +23,32 @@ export const MerchantForm = ({
   }, [initialValues]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className="form" onSubmit={handleSubmit(onSubmit)}>
       <label>Status*</label>
-      <select name="status" ref={register}>
+      <select name="status" className="input-text" ref={register}>
         <option value={ActivityStatus.active}>Active</option>
         <option value={ActivityStatus.inactive}>Inactive</option>
       </select>
       <label>Currency*</label>
-      <select name="currency" ref={register}>
+      <select name="currency" className="input-text" ref={register}>
         <option value={'USD'}>USD</option>
         <option value={'AUD'}>AUD</option>
         <option value={'YEN'}>YEN</option>
         <option value={'NZD'}>NZD</option>
       </select>
       <label>Country*</label>
-      <select name="country" ref={register}>
+      <select name="country" className="input-text" ref={register}>
         <option value={'UNITED_STATES'}>United States</option>
         <option value={'AUSTRALIA'}>Australia</option>
         <option value={'JAPAN'}>Japan</option>
         <option value={'NEW_ZEALAND'}>New Zealand</option>
       </select>
       <label>Website Url*</label>
-      <input name="websiteUrl" ref={register({ required: true })} />
+      <input
+        name="websiteUrl"
+        className="input-text"
+        ref={register({ required: true })}
+      />
       {errors.websiteUrl && <span>This field is required</span>}
 
       <label>Discount (%)*</label>
@@ -52,6 +57,7 @@ export const MerchantForm = ({
         render={({ value, onChange }) => (
           <input
             type="number"
+            className="input-text"
             value={value}
             onChange={e => onChange(parseFloat(e.target.value))}
           />
@@ -61,7 +67,9 @@ export const MerchantForm = ({
       ></Controller>
       {errors.discountPercentage && <span>This field is required</span>}
 
-      <button type="submit">Save</button>
+      <button className="button" type="submit">
+        Save
+      </button>
     </form>
   );
 };

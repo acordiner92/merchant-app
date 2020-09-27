@@ -1,0 +1,28 @@
+.app {
+  font-family: Roboto;
+}
+
+.nav-bar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #6c5ce7;
+}
+
+.nav-bar li {
+  float: left;
+  list-style-type: none;
+}
+
+.nav-bar li a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.nav-bar li a:hover {
+  background-color: #19143d;
+}

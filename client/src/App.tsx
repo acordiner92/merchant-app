@@ -2,12 +2,13 @@ import React, { ReactElement } from 'react';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import { MerchantEdit } from './page/MerchantEdit';
 import { MerchantHome } from './page/MerchantHome';
+import './App.css';
 
 const App = (): ReactElement => (
   <Router>
-    <div>
+    <div className="app">
       <nav>
-        <ul>
+        <ul className="nav-bar">
           <li>
             <Link to="/">Home</Link>
           </li>
